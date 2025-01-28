@@ -1,31 +1,46 @@
 const container = document.querySelector("#container");
+const newGrid = document.querySelector("#newGrid");
+
+let step = 0;
+
+function randomRGB(darken) {
+    let red = Math.floor(Math.random() * 256) - darken;
+    let green = Math.floor(Math.random() * 256) - darken;
+    let blue = Math.floor(Math.random() * 256) - darken;
+
+    return "RGB(" + red + ", " + green + ", " + blue + ")";
+}
+
 
 function createGrid(chosenSize) {
     const gridSize = chosenSize;
     const divSize = 960 / chosenSize;
 
-    for (i = 0; i < gridSize; i++){
-        const divCol = document.createElement("div");
-        for (z = 0; z < gridSize; z++) {
-            const divRow = document.createElement("div");
-            divRow.style.cssText = "background-color: gray;";
-            divRow.style.padding = `${divSize}px`;
-            divRow.addEventListener("mouseover", () => {
-                divRow.style.backgroundColor = "lightgreen";
-            });
-
-            divCol.appendChild(divRow);
-        }
-        container.appendChild(divCol);
+    for (i = 0; i < gridSize**2; i++) {
+        step = 0;
+        const div = document.createElement("div");
+        div.style.cssText = "background-color: grey;";
+        div.style.width = `${divSize}px`;
+        div.style.height = `${divSize}px`;
+        div.addEventListener("mouseover", () => {
+            let darkenBy = step * 26;
+            step++;
+            div.style.backgroundColor = randomRGB(darkenBy);
+        });
+        container.appendChild(div);
     }
 }
 
-const newGrid = document.querySelector("#newGrid");
 
 newGrid.addEventListener("click", () => {
-    let chosenSize = prompt("Choose Grid Size:")
-    container.innerHTML = "";
-    createGrid(chosenSize)
-})
+    let chosenSize = prompt("Choose Grid Size: (min 1, max 100)");
+    if (chosenSize <= 100 && chosenSize >= 1) {
+        container.innerHTML = "";
+        createGrid(chosenSize);
+    } else {
+        alert("Wrong input, please try again.");
+    }
+});
+
 
 createGrid(16);

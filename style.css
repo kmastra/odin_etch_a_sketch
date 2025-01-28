@@ -1,7 +1,14 @@
-#container {
+body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 8px;
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
     width: 960px;
     height: 960px;
 }
